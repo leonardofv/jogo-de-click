@@ -15,6 +15,9 @@ function exibeCirculo(x, y, raio, cor) {
     pincel.fill();
 }
 
+let xAleatorio;
+let yAleatorio; //Declaro sem conteúdo pois vou verificar seu valor dentro de uma função.
+
 function exibeAlvo(xAleatorio, yAleatorio) {
 
     exibeCirculo(xAleatorio, yAleatorio, raio+20, 'red');
@@ -22,13 +25,36 @@ function exibeAlvo(xAleatorio, yAleatorio) {
     exibeCirculo(xAleatorio, yAleatorio, raio, 'red');
 }
 
-function atualizaTela() {
+function limpaTela() {
+
     pincel.clearRect(0, 0, 600, 400);  //Limpar a tela após o alvo aparecer
+}
+
+function atualizaTela() {
+    
+    limpaTela();
     //Sortear posição aleatoria do x e y.
-    let xAleatorio = Math.round(Math.random() * 600);
-    let yAleatorio = Math.round(Math.random() * 400);
+    xAleatorio = Math.round(Math.random() * 600);
+    yAleatorio = Math.round(Math.random() * 400);
 
     exibeAlvo(xAleatorio, yAleatorio);
 }
 
 setInterval(atualizaTela, 1000);
+
+function dispara(event) {
+
+    let x = event.pageX - tela.offsetLeft;
+    let y = event.pageY - tela.offsetTop;
+
+    if( (x > xAleatorio - raio) 
+        && (x < xAleatorio + raio) 
+        && (y > yAleatorio - raio)
+        && (y < yAleatorio + raio) ) {
+            alert('Acertou');
+        }
+
+    console.log(event);
+}
+
+tela.onclick = dispara;
